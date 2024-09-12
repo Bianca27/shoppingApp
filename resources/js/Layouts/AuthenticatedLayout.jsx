@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const userRole = user.role;
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -59,7 +60,12 @@ export default function Authenticated({ user, header, children }) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('orders')}>Order history</Dropdown.Link>
+                                        {userRole === 'buyer' && (
+                                            <Dropdown.Link href={route('orders')}>Order History</Dropdown.Link>
+                                        )}
+                                        {userRole === 'supplier' && (
+                                            <Dropdown.Link href={route('purchased')}>Purchased by Users</Dropdown.Link>
+                                        )}
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>

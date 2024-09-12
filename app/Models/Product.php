@@ -40,4 +40,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class)->using(OrderItem::class);
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

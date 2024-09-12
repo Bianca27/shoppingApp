@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/product/{id}', [ProductController::class, 'update'])->name('product.update');
 
         Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+        Route::get('/purchased-by-users', [OrderController::class, 'purchasedByUsers'])->name('purchased');
     });
 
     Route::middleware('role:buyer')->group(function () {
