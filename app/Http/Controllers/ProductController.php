@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Stock;
@@ -12,16 +13,25 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $itemsInCart = 0;
         if (auth()->user()->role == 'supplier') {
             $products = Product::where('user_id', auth()->user()->id)->with('image')->get();
+
         }
 
         if (auth()->user()->role == 'buyer') {
             $products = Product::with('image')->get();
+            $cart = Cart::with('items')->where('user_id', auth()->id())->first();
+            if ($cart) {
+                $cartItems = $cart->items;
+                foreach ($cartItems as $cartItem) {
+                    $itemsInCart += $cartItem->quantity;
+                }
+            }
         }
 
 
-        return Inertia::render('Product/List', ['products' => $products, 'userRole' => auth()->user()->role]);
+        return Inertia::render('Product/List', ['products' => $products, 'userRole' => auth()->user()->role, 'itemsInCart' => $itemsInCart]);
     }
 
     public function create()
@@ -31,6 +41,15 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string|max:1000',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
         $product = Product::create(
             [
                 'name' => $request->get('name'),
@@ -56,7 +75,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return Inertia::render('Product/List');
+        return Inertia::render('Product/List')->with('success', 'Product was successfully created.');
     }
 
     public function edit($id) {
@@ -93,7 +112,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return Inertia::render('Product/List', ['product' => $product ]);
+        return Inertia::render('Product/List', ['product' => $product ])->with('success', 'Product was successfully updated.');;
     }
 
     public function destroy($id)
@@ -102,6 +121,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('product.index');
+        return back()->with('success', 'Product was successfully deleted.');
     }
 }
