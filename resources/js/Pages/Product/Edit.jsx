@@ -6,19 +6,24 @@ import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function UpdateProduct({ product, auth }) {
-    const { data, setData, patch, errors, processing } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         name: product.name,
         price: product.price,
         stock: product.stock.quantity,
         description: product.description,
         user_id: auth.user.id,
+        image: null
     });
+
+    const handleImageChange = (e) => {
+        setData('image', e.target.files[0]); // Set the image file
+    };
 
     const submit = (e) => {
         e.preventDefault();
 
         // Submit form data
-        patch(route('product.update', product.id), {
+        post(route('product.update', product.id), {
             onSuccess: () => {
                 // Handle success (e.g., redirect to product list page)
                 window.location.href = '/products';
@@ -91,6 +96,17 @@ export default function UpdateProduct({ product, auth }) {
                                         required
                                     />
                                     <InputError className="mt-2" message={errors.description}/>
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="image" value="Product Image"/>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        className="mt-1 block w-full"
+                                        onChange={handleImageChange}
+                                        accept="image/*"
+                                    />
+                                    <InputError className="mt-2" message={errors.image}/>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <PrimaryButton>Update product</PrimaryButton>

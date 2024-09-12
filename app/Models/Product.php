@@ -11,12 +11,12 @@ class Product extends Model
     use HasFactory;
 
     // Define the fillable properties
-    protected $fillable = ['name', 'price', 'description', 'image', 'user_id'];
+    protected $fillable = ['name', 'price', 'description', 'user_id'];
 
     protected function price(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) =>$value * 100,
+            set: fn (string $value) => $value * 100,
             get: fn (int $value) => $value / 100,
         );
     }
@@ -24,5 +24,10 @@ class Product extends Model
     public function stock()
     {
         return $this->hasOne(Stock::class);
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class);
     }
 }

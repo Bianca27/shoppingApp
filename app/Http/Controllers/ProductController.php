@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
@@ -12,11 +13,11 @@ class ProductController extends Controller
     public function index()
     {
         if (auth()->user()->role == 'supplier') {
-            $products = Product::where('user_id', auth()->user()->id)->get();
+            $products = Product::where('user_id', auth()->user()->id)->with('image')->get();
         }
 
         if (auth()->user()->role == 'buyer') {
-            $products = Product::all();
+            $products = Product::with('image')->get();
         }
 
 
@@ -44,12 +45,22 @@ class ProductController extends Controller
             'quantity' => $request->get('stock'),
         ]);
 
+        // Handle the image upload
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            Image::create([
+                'title' => $imageName,
+                'url' => '/images/'.$imageName,
+                'product_id' => $product->id,
+            ]);
+        }
 
         return Inertia::render('Product/List');
     }
 
     public function edit($id) {
-        $product = Product::with('stock')->find($id);
+        $product = Product::with('stock', 'image')->find($id);
 
         return Inertia::render('Product/Edit', ['product' => $product ]);
     }
@@ -66,6 +77,21 @@ class ProductController extends Controller
         $product->stock->update([
             'quantity' => $request->get('stock'),
         ]);
+
+        $image = Image::where('product_id', $product->id)->first();
+        // Handle the image upload
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            if ($image) {
+                $image->delete();
+            }
+            Image::create([
+                'title' => $imageName,
+                'url' => '/images/'.$imageName,
+                'product_id' => $product->id,
+            ]);
+        }
 
         return Inertia::render('Product/List', ['product' => $product ]);
     }

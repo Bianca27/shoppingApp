@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from "@/Components/InputLabel.jsx";
@@ -12,8 +11,13 @@ export default function CreateProduct({ auth }) {
         price: '',
         stock: '',
         description: '',
+        image: null,
         user_id: auth.user.id,
     });
+
+    const handleImageChange = (e) => {
+        setData('image', e.target.files[0]); // Set the image file
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -92,6 +96,17 @@ export default function CreateProduct({ auth }) {
                                         required
                                     />
                                     <InputError className="mt-2" message={errors.description}/>
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="image" value="Product Image"/>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        className="mt-1 block w-full"
+                                        onChange={handleImageChange}
+                                        accept="image/*"
+                                    />
+                                    <InputError className="mt-2" message={errors.image}/>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <PrimaryButton>Create product</PrimaryButton>
