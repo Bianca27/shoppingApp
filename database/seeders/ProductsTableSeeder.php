@@ -18,7 +18,7 @@ class ProductsTableSeeder extends Seeder
             'name' => 'Nike Shoes',
             'price' => 100,
             'description' => 'This is the first product',
-            'user_id' => 1,
+            'user_id' => 3,
             ],
         );
 
@@ -26,13 +26,13 @@ class ProductsTableSeeder extends Seeder
             'name' => 'Puma shoes',
             'price' => 200,
             'description' => 'This is the second product',
-            'user_id' => 1,
+            'user_id' => 3,
         ]);
         Product::create([
             'name' => 'New balance shoes',
             'price' => 300,
             'description' => 'This is the third product',
-            'user_id' => 2,
+            'user_id' => 4,
         ]);
     }
 }

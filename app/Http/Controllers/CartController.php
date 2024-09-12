@@ -94,7 +94,7 @@ class CartController extends Controller
 
         $order = Order::create([
             'user_id' => auth()->id(),
-            'total_amount' => $total / 100,
+            'total_amount' => $total,
             'payment_method' => 'Visa',
             'shipping_address' => 'Test address',
             'status' => 'pending',

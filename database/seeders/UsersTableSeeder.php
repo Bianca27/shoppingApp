@@ -10,7 +10,7 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Create 3 buyers
+        // buyers
         User::create([
             'name' => 'Bianca Buyer',
             'email' => 'bianca.radu19@gmail.com',
@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
             'role' => 'buyer',
         ]);
 
-        // Create 5 suppliers
+        // suppliers
         User::create([
             'name' => 'John Supplier',
             'email' => 'john@example.com',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
@@ -38,9 +39,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
         Route::post('/product/{id}', [ProductController::class, 'update'])->name('product.update');
-    });
 
-    Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+    });
 
     Route::middleware('role:buyer')->group(function () {
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -48,6 +49,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
         Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+        Route::get('/orders', [OrderController::class, 'orders'])->name('orders');
+        Route::get('/order/{id}', [OrderController::class, 'view'])->name('order.view');
     });
 });
 

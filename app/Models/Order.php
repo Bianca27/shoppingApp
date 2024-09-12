@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,13 @@ class Order extends Model
         'shipping_address'
     ];
 
+    protected function totalAmount(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => $value * 100,
+            get: fn (int $value) => $value / 100,
+        );
+    }
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
