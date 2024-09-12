@@ -34,8 +34,8 @@ export default function Cart({ auth, cartItems, total }) {
         router.post('cart/remove', { cart_item_id: cartItemId });
     };
 
-    const handleCheckout = () => {
-        post(route('cart.checkout'));
+    const checkout = () => {
+        router.post(route('cart.checkout', { cart_items: cartItems, total: total }));
     };
 
     return (
@@ -71,8 +71,8 @@ export default function Cart({ auth, cartItems, total }) {
                                             className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                             <a href="#" className="shrink-0 md:order-1">
                                                 <img className="h-20 w-20"
-                                                     src={item.product.image.url}
-                                                     alt={item.product.image.title}
+                                                     src={item.product.image ? item.product.image.url : '/default.jpg'}
+                                                     alt={item.product.image ? item.product.image.title : item.product.name}
                                                 />
                                             </a>
 
@@ -165,7 +165,7 @@ export default function Cart({ auth, cartItems, total }) {
 
                             <button
                                 className="flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                onClick={handleCheckout}
+                                onClick={checkout}
                             >
                                Checkout
                             </button>

@@ -84,13 +84,13 @@ export default function productList({ products, auth, userRole }) {
                                             <div key={product.id}
                                                  className="bg-white border rounded-lg shadow hover:shadow-lg overflow-hidden">
                                                 <img
-                                                    src={product.image ? product.image.url : '/placeholder-image.png'} // Assuming product has an 'image_url' attribute
+                                                    src={product.image ? product.image.url : '/placeholder-image.png'}
                                                     alt={product.name}
                                                     className="w-full h-48 object-cover"
                                                 />
                                                 <div className="p-4">
                                                     <h2 className="text-lg font-bold text-gray-800">{product.name}</h2>
-                                                    <p className="text-gray-500 mt-2">${product.price}</p> {/* Assuming price is in cents */}
+                                                    <p className="text-gray-500 mt-2">${product.price}</p>
                                                     {userRole === 'supplier' && (
                                                         <div className="mt-4 flex justify-between items-center">
                                                             <a
@@ -125,7 +125,7 @@ export default function productList({ products, auth, userRole }) {
                                         ))}
                                     </div>
                                 ) : (
-                                    <p className="text-gray-500">You haven't added any products yet.</p>
+                                    <p className="text-gray-500">No products exist</p>
                                 )}
                         </div>
                         </div>
