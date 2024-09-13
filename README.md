@@ -16,3 +16,5 @@ You can also use the http://localhost:8000/register to create a new buyer/suppli
 
 Open http://localhost:8000
 
+I also added a dockerFile and docker-compose.yml so a container can be created in docker. I was not able to deploy this on a server unfortunatley.
+
