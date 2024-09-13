@@ -20,11 +20,12 @@ export default function Authenticated({ user, header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
-
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                {userRole === 'supplier' && (
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                )}
                                 <NavLink href={route('product.index')} active={route().current('product.index')}>
                                     Products
                                 </NavLink>
@@ -62,9 +63,6 @@ export default function Authenticated({ user, header, children }) {
                                         <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
                                         {userRole === 'buyer' && (
                                             <Dropdown.Link href={route('orders')}>Order History</Dropdown.Link>
-                                        )}
-                                        {userRole === 'supplier' && (
-                                            <Dropdown.Link href={route('purchased')}>Purchased by Users</Dropdown.Link>
                                         )}
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
@@ -106,7 +104,6 @@ export default function Authenticated({ user, header, children }) {
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
-
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{user.name}</div>

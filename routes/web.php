@@ -23,10 +23,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -42,7 +38,9 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 
-        Route::get('/purchased-by-users', [OrderController::class, 'purchasedByUsers'])->name('purchased');
+//        Route::get('/purchased-by-users', [OrderController::class, 'purchasedByUsers'])->name('purchased');
+
+        Route::get('/dashboard', [OrderController::class, 'purchasedByUsers'])->name('dashboard');
     });
 
     Route::middleware('role:buyer')->group(function () {

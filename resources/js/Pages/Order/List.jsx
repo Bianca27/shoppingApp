@@ -75,7 +75,7 @@ export default function OrderHistoryList({ orders, auth, userRole }) {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">
+                                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">
                                         No orders found
                                     </td>
                                 </tr>
